@@ -90,8 +90,8 @@ details>div,details>p{margin-top:8px}
   <summary>Pengaturan AI (di luar claude.ai)</summary>
   <div><label for="gk" style="margin-top:0">Kunci API Gemini</label>
   <input type="password" id="gk" autocomplete="off" placeholder="tempel kunci di sini">
-  <label for="gm">Nama model</label>
-  <input type="text" id="gm" placeholder="salin dari Google AI Studio">
+  <label for="gm">Nama model <span class="cnt">(opsional)</span></label>
+  <input type="text" id="gm" placeholder="kosongkan = gemini-flash-latest (otomatis)">
   <div class="row"><button class="s" id="gtest">Tes koneksi</button><button class="s" id="gclear">Hapus kunci</button></div>
   <p class="note">Dipakai hanya jika halaman dibuka di luar claude.ai (mis. GitHub Pages). Kunci tersimpan di browser ini saja. Jangan menulisnya di file atau repo.</p></div>
 </details>
@@ -212,8 +212,7 @@ function saveHist(){
   save();renderHist();renderTnote();toast('Tersimpan');
 }
 async function gemini(P){
-  const m=(S.gmodel||'').trim().replace(/^models\//,'');
-  if(!m)throw new Error('isi nama model di Pengaturan AI');
+  const m=(S.gmodel||'gemini-flash-latest').trim().replace(/^models\//,'');
   if(!/^(gemini|gemma)/i.test(m))throw new Error('nama model harus seperti "gemini-...", bukan "'+m.slice(0,20)+'"');
   const base='https://generativelanguage.googleapis.com/v1beta/models/'+encodeURIComponent(m)+':generateContent';
   const body=JSON.stringify({contents:[{parts:[{text:P}]}],generationConfig:{responseMimeType:'application/json'}});
